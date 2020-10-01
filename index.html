@@ -11,6 +11,7 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="images/yoda.ico" type="image/x-icon">
     <title>On A WebPage Far Far Away...</title>
 </head>
 
@@ -23,39 +24,53 @@
             </li>
         </ul> -->
         <!-- Navbar text-->
-        <span class="navbar-text">
-            Star Wars Themed Darkmode CSS
+        <span class="navbar-text text-white font-weight-bold">
+            MAY THE FORCE BE WITH YOU
         </span>
     </nav>
 
     <section id="main-section" class="main-sec">
         <div class="row text-center main-row">
-            <div class="col-lg-6 border main-col d-flex justify-content-center align-items-center">
-                <div class="tile">
-                    <img src="images/anakin_lightsaber.jpg" alt="" class="inverted" width="280px" height="400px">
+
+            <div class="col-lg-6 main-col d-flex justify-content-center align-items-center">
+                <div class="tile tile-focused">
+                    <img src="images/anakin_lightsaber.jpg" alt="" class="inverted tile-img">
                 </div>
             </div>
 
-            <div class="toggle-btn-div">
-                <button class="toggle-btn">Toggle Dark Mode</button>
+            <div class="toggle-force-side-div">
+
+                <div class="light-side-div">
+                    <img src="images/anakin.png" alt="" class="side-img ">
+                    <audio src="audio/jedi.mp3" loop preload="auto" class="light-side-audio"></audio>
+                </div>
+
+                <div class="dark-side-div">
+                    <img src="images/Darth-Vader-Transparent.png" alt="" class="side-img d-none inverted">
+                    <audio src="audio/vader.mp3" loop preload="auto" class="dark-side-audio"></audio>
+                </div>
+
             </div>
 
-            <div class="col-lg-6 border d-flex justify-content-center align-items-center">
-                <div class="tile">
-                    <img src="images/darth_vader_lightsaber.jpg" alt="" class="inverted not-focused" width="280px"
-                        height="400px">
+            <div class="toggle-btn-div">
+                <button class="toggle-btn">Toggle Force Side</button>
+            </div>
+
+            <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                <div class="tile not-focused">
+                    <img src="images/darth_vader_lightsaber.jpg" alt="" class="inverted tile-img">
                 </div>
             </div>
         </div>
     </section>
 
-    <hr>
+    <!-- <hr>
 
     <section id="info">
         <div class="info-main">
             Info Part
         </div>
-    </section>
+    </section> -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -77,13 +92,55 @@
         }
 
         function ready() {
+            // start the initial audio for light side
+            let src = play_side_audio('audio/jedi.mp3');
+
+            function play_side_audio(filename) {
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var source = audioCtx.createBufferSource();
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', filename);
+                xhr.responseType = 'arraybuffer';
+                xhr.addEventListener('load', function (r) {
+                    audioCtx.decodeAudioData(
+                        xhr.response,
+                        function (buffer) {
+                            source.buffer = buffer;
+                            source.connect(audioCtx.destination);
+                            source.loop = true;
+                        });
+                    source.start(0);
+                });
+                xhr.send();
+                return source;
+            }
+
+
+            //playing the light side audio on landing
+            // let light_audio = document.getElementsByClassName('light-side-audio')[0];
+            // console.log("audio tag ", light_audio)
+            // light_audio.play();
             // getting all the elements
             let btn = document.getElementsByClassName('toggle-btn')[0];
+            let flag = 0;
 
             btn.addEventListener('click', () => {
-                // get the tiles after toggling btn
-                let tile = document.getElementsByClassName('tile');
-                console.log(tile)
+                // change the audio
+                if (flag == 0) {
+                    // stop current audio
+                    // play the dark side and set flag =1 and vice versa for else
+                    src.stop();
+                    src = play_side_audio('audio/vader.mp3');
+                    flag = 1;
+                } else {
+                    src.stop();
+                    src = play_side_audio('audio/jedi.mp3');
+                    flag = 0;
+                }
+                // get the tiles and side imgs after toggling btn
+                let tiles = document.getElementsByClassName('tile');
+                let side_imgs = document.getElementsByClassName('side-img');
+                console.log("b4 = ", tiles)
                 // toggling every element
                 document.documentElement.classList.toggle('dark-mode');
                 // reverting the elements which are not supposed to invert
@@ -91,25 +148,28 @@
                     result.classList.toggle('invert');
                 })
                 // blurring the unfocused tile
-                for (let index = 0; index < tile.length; index++) {
-                    if (tile[index].classList.contains('not-focused')) {
-                        tile[index].classList.remove('not-focused');
-                    } else tile[index].classList.add('not-focused');
+                for (let index = 0; index < tiles.length; index++) {
+                    // using side imgs in this for loop coz the lentgh is same
+                    // if (tiles[index].classList.contains('not-focused')) {
+                    //     tiles[index].classList.remove('not-focused'); // focus it
+                    //     // enlarge it a bit
+                    //     tiles[index].classList.add('tile-focused');
+                    //     // toggle side imgs
+                    //     side_imgs[index].classList.remove('d-none');
+                    // } else {
+                    //     // remove the enlarge effect
+                    //     tiles[index].classList.remove('tile-focused');
+                    //     tiles[index].classList.add('not-focused');
+                    //     // toggle side imgs
+                    //     side_imgs[index].classList.add('d-none');
+                    // }
+                    tiles[index].classList.toggle('not-focused');
+                    tiles[index].classList.toggle('tile-focused');
+                    side_imgs[index].classList.toggle('d-none');
                 }
+                // console.log("after = ", tile)
             })
         }
-
-        // document.onkeypress = function (e) {
-        //     e = e || window.event;
-
-        //     if (e.keyCode === 13) { // Enter key code
-        //         document.documentElement.classList.toggle('dark-mode');
-
-        //         document.querySelectorAll('.inverted').forEach((result) => {
-        //             result.classList.toggle('invert');
-        //         })
-        //     }
-        // }
     </script>
 </body>
 
