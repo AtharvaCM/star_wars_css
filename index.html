@@ -106,8 +106,7 @@
             //     $('body').addClass('loaded');
             //     $('h1').css('color', '#222222');
             // }, 3000);
-            // add loaded class to body once its is loaded XD
-            $('body').addClass('loaded');
+
             // Setup the new Howl.
             const light_sound = new Howl({
                 src: ['audio/jedi.mp3'],
@@ -128,6 +127,9 @@
             var dark_id = dark_sound.play();
             dark_sound.fade(1, 0, 100);
             var music_flag = 0;
+
+            // add loaded class to body once music is loaded
+            $('body').addClass('loaded');
 
             // getting all the elements
             var btn = document.getElementsByClassName('toggle-btn')[0];
