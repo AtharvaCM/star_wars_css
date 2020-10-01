@@ -16,13 +16,22 @@
 </head>
 
 <body>
+    <div id="loader-wrapper">
+        <div id="loader-img">CHOOSE A SIDE, YOU MUST!</div>
+        <div id="loader"></div>
+
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+
+    </div>
+
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark d-flex flex-row justify-content-center inverted">
         <!-- Links -->
-        <!-- <ul class="navbar-nav">
+        <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Link 1</a>
+                <a class="nav-link" href="#" id="toggle-music">Toggle Music</a>
             </li>
-        </ul> -->
+        </ul>
         <!-- Navbar text-->
         <span class="navbar-text text-white font-weight-bold">
             MAY THE FORCE BE WITH YOU
@@ -83,6 +92,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+    <script src="node_modules/howler/dist/howler.min.js"></script>
 
     <script>
         if (document.readyState == "loading") {
@@ -92,49 +102,48 @@
         }
 
         function ready() {
-            // start the initial audio for light side
-            let src = play_side_audio('audio/jedi.mp3');
+            // setTimeout(function () {
+            //     $('body').addClass('loaded');
+            //     $('h1').css('color', '#222222');
+            // }, 3000);
+            // add loaded class to body once its is loaded XD
+            $('body').addClass('loaded');
+            // Setup the new Howl.
+            const light_sound = new Howl({
+                src: ['audio/jedi.mp3'],
+                // html5: true,
+                loop: true,
+                // preload: true,
+                // autoplay: true,
+            });
+            const dark_sound = new Howl({
+                src: ['audio/vader.mp3'],
+                // html5: true,
+                loop: true,
+                // preload: true,
+                // autoplay: true,
+            });
+            // storing id
+            var light_id = light_sound.play();
+            var dark_id = dark_sound.play();
+            dark_sound.fade(1, 0, 100);
+            var music_flag = 0;
 
-            function play_side_audio(filename) {
-                var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                var source = audioCtx.createBufferSource();
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', filename);
-                xhr.responseType = 'arraybuffer';
-                xhr.addEventListener('load', function (r) {
-                    audioCtx.decodeAudioData(
-                        xhr.response,
-                        function (buffer) {
-                            source.buffer = buffer;
-                            source.connect(audioCtx.destination);
-                            source.loop = true;
-                        });
-                    source.start(0);
-                });
-                xhr.send();
-                return source;
-            }
-
-
-            //playing the light side audio on landing
-            // let light_audio = document.getElementsByClassName('light-side-audio')[0];
-            // console.log("audio tag ", light_audio)
-            // light_audio.play();
             // getting all the elements
-            let btn = document.getElementsByClassName('toggle-btn')[0];
-            let flag = 0;
+            var btn = document.getElementsByClassName('toggle-btn')[0];
+            var flag = 0;
 
             btn.addEventListener('click', () => {
                 // change the audio
                 if (flag == 0) {
                     // stop current audio
+                    light_sound.fade(1, 0, 1000);
                     // play the dark side and set flag =1 and vice versa for else
-                    src.stop();
-                    src = play_side_audio('audio/vader.mp3');
+                    dark_sound.fade(0, 1, 1000);
                     flag = 1;
                 } else {
-                    src.stop();
-                    src = play_side_audio('audio/jedi.mp3');
+                    dark_sound.fade(1, 0, 1000);
+                    light_sound.fade(0, 1, 1000);
                     flag = 0;
                 }
                 // get the tiles and side imgs after toggling btn
@@ -150,25 +159,25 @@
                 // blurring the unfocused tile
                 for (let index = 0; index < tiles.length; index++) {
                     // using side imgs in this for loop coz the lentgh is same
-                    // if (tiles[index].classList.contains('not-focused')) {
-                    //     tiles[index].classList.remove('not-focused'); // focus it
-                    //     // enlarge it a bit
-                    //     tiles[index].classList.add('tile-focused');
-                    //     // toggle side imgs
-                    //     side_imgs[index].classList.remove('d-none');
-                    // } else {
-                    //     // remove the enlarge effect
-                    //     tiles[index].classList.remove('tile-focused');
-                    //     tiles[index].classList.add('not-focused');
-                    //     // toggle side imgs
-                    //     side_imgs[index].classList.add('d-none');
-                    // }
                     tiles[index].classList.toggle('not-focused');
                     tiles[index].classList.toggle('tile-focused');
                     side_imgs[index].classList.toggle('d-none');
                 }
-                // console.log("after = ", tile)
             })
+
+            stop_music_btn = document.getElementById('toggle-music');
+            stop_music_btn.addEventListener('click', () => {
+                console.log('toggling-music');
+                if (music_flag == 0) {
+                    // stop music
+                    Howler.mute(true);
+                    music_flag = 1;
+                } else {
+                    Howler.mute(false);
+                    music_flag = 0;
+                }
+            })
+
         }
     </script>
 </body>
