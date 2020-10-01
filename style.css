@@ -1,0 +1,38 @@
+:root {
+  background-color: white;
+}
+.dark-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+.invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+section {
+  overflow: hidden;
+}
+.main-sec {
+  height: calc(100vh - 56px);
+}
+.main-row {
+  height: inherit;
+}
+.main-col {
+  /* position: relative; */
+  /* height: calc(100vh - 56px); */
+  height: inherit;
+}
+.toggle-btn-div {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  z-index: 1;
+}
+.toggle-btn {
+  width: calc(100vw / 10);
+}
+.tile {
+}
+.not-focused {
+  filter: blur(4px);
+}
