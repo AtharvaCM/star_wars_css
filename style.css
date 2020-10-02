@@ -1,6 +1,6 @@
 :root {
   background-color: wheat;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* PRELOADER CSS */
@@ -171,42 +171,137 @@
   filter: invert(1) hue-rotate(180deg);
 }
 
-section {
-  overflow: hidden !important;
+.star-wars-crawler-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  /* Force the body to fill the entire screen */
+  width: 100%;
+  height: 100%;
+  /* Hide elements that flow outside the viewable space */
+  overflow: hidden;
+  /* Black background for the screen */
+  background: #000;
 }
+.nxt-btn {
+  position: absolute;
+  width: 100px;
+  z-index: 1000;
+  top: 50%;
+  margin-top: -24px;
+  left: 50%;
+  margin-left: -50px;
+  /* display: none; */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 1s linear;
+}
+.star-wars {
+  /* Flexbox to center the entire element on the screen */
+  display: flex;
+  justify-content: center;
+  /* This is a magic number based on the context in which this snippet is used and effects the perspective */
+  height: 800px;
+  /* This sets allows us to transform the text on a 3D plane, and is somewhat a magic number */
+  perspective: 400px;
+  /* The rest is totally up to personal styling preferences */
+  color: #feda4a;
+  font-family: "Pathway Gothic One", sans-serif;
+  font-size: 500%;
+  font-weight: 600;
+  letter-spacing: 6px;
+  line-height: 150%;
+  text-align: justify;
+}
+.crawl {
+  /* Position the element so we can adjust the top property in the animation */
+  position: relative;
+  /* Making sure the text is fully off the screen at the start and end of the animation */
+  top: -100px;
+  /* Defines the skew origin at the very center when we apply transforms on the animation */
+  transform-origin: 50% 100%;
+  /* Adds the crawl animation, which plays for one minute */
+  /* animation: crawl 15s linear; */
+  display: none;
+}
+/* We're calling this animation "crawl" */
+@keyframes crawl {
+  0% {
+    /* The element starts below the screen */
+    top: 0;
+    /* Rotate the text 20 degrees but keep it close to the viewer */
+    transform: rotateX(20deg) translateZ(0);
+  }
+  100% {
+    /* This is a magic number, but using a big one to make sure the text is fully off the screen at the end */
+    top: -6000px;
+    /* Slightly increasing the rotation at the end and moving the text far away from the viewer */
+    transform: rotateX(25deg) translateZ(-2500px);
+  }
+}
+.fade {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  top: -25px;
+  background-image: linear-gradient(0deg, transparent, black 75%);
+  z-index: 1;
+}
+/* cawler finished */
+.crawl-loaded .star-wars-crawler-wrapper {
+  -webkit-transform: translateY(-100%); /* Chrome, Opera 15+, Safari 3.1+ */
+  -ms-transform: translateY(-100%); /* IE 9 */
+  transform: translateY(-100%); /* Firefox 16+, IE 10+, Opera */
+
+  -webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* section {
+  overflow: hidden !important;
+} */
 .main-sec {
-  height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
 }
 .main-row {
-  height: inherit;
+  min-height: inherit;
 }
 .main-col {
   /* position: relative; */
   /* height: calc(100vh - 56px); */
-  height: inherit;
+  min-height: inherit;
+  z-index: 100;
 }
 .toggle-force-side-div {
   position: absolute;
-  top: 23%;
+  top: 59%;
   left: 40%;
-  z-index: 1;
-  width: calc(100vw * 0.2);
-  height: calc(100vh * 0.5);
+  z-index: 0;
+  /* width: calc(100vw * 0.2); */
+  /* height: calc(100vh * 0.5); */
   /* border: 1px solid red; */
 }
-.side-img {
-  height: calc(100vh * 0.4);
-  /* width: calc(100vw * 0.2); */
+@media (max-width: 1334px) {
+  .toggle-force-side-div {
+    display: none;
+  }
 }
-.toggle-btn-div {
+.side-img {
+  /* height: calc(100vh * 0.4); */
+  /* width: calc(100vw * 0.2); */
+  height: 263px;
+}
+/* .toggle-btn-div {
   position: absolute;
   top: 80%;
   left: 45%;
   z-index: 100;
-}
-.toggle-btn {
+} */
+/* .toggle-btn {
   width: calc(100vw / 10);
-}
+} */
 .tile {
   width: 280px;
   height: 400px;
@@ -227,4 +322,9 @@ section {
   box-shadow: 0px 3px 10px #2a0664;
   transform: scale(1.2);
   transition: 500ms ease-in-out;
+}
+@media (max-width: 800px) {
+  .tile-focused {
+    transform: scale(1.1);
+  }
 }
