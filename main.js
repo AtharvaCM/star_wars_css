@@ -21,8 +21,12 @@ function ready() {
   // get the crawl div to check for animation end
   var crawl = document.getElementsByClassName("crawl")[0];
   setTimeout(() => {
-    crawl.style.display = "block";
-    crawl.style.animation = "crawl 60s linear"; // start the animation
+    crawl.style.display = "block"; 
+    if ($(window).width() <= 400) {
+        crawl.style.animation = "crawl 70s linear";
+      } else { 
+        crawl.style.animation = "crawl 60s linear"; // start the animation
+      }
   }, 4000);
   // Code for Chrome, Safari and Opera
   crawl.addEventListener("webkitAnimationEnd", endCrawlFunction);
