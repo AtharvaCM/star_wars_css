@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-            <div class="toggle-force-side-div">
+            <!-- <div class="toggle-force-side-div">
 
                 <div class="light-side-div">
                     <img src="images/anakin.png" alt="" class="side-img ">
@@ -96,7 +96,7 @@
                     <audio src="audio/vader.mp3" loop preload="auto" class="dark-side-audio"></audio>
                 </div>
 
-            </div>
+            </div> -->
 
             <div class="toggle-btn-div d-flex align-items-center">
                 <button class="toggle-btn btn btn-md btn-outline-dark">Toggle Force Side</button>
@@ -111,13 +111,46 @@
         </div>
     </section>
 
-    <!-- <hr>
+    <hr>
 
     <section id="info">
-        <div class="info-main">
-            Info Part
+        <div class="info-main d-flex flex-row flex-wrap justify-content-around align-items-center">
+            <div class="container shadow-lg info-tile py-3 normal-text">
+                <p>
+                    This is a demo page to show how to use Simple CSS and JavaScript trick to integrate Dark-Mode on
+                    your page using <span class="mark">filter: invert(1) hue-rotate(180deg);</span> to invert the
+                    colors and using JS to control the rest of elements and events.
+                </p>
+                <p>
+                    This is kind of a shortcut for toggling Dark-Mode and not suiatble for Complex UI Designs as the
+                    property inverts everything and if you have a complex color scheme going on, this is not ideal.
+                </p>
+                <p>
+                    This demo is inspired by <a href="https://youtu.be/qimopjP6YoM" target="_blank">This Video</a> and
+                    <a href="https://dev.to/ekaterina_vu/dark-mode-with-one-line-of-code-4lkm" target="_blank">This
+                        Article</a> and the Iconic Star Wars Universe.
+                </p>
+                <p>
+                    Interested in how it's done? Check out the <a href="https://github.com/AtharvaCM/star_wars_css"
+                        target="_blank">GitHub Repository.</a>
+                </p>
+            </div>
         </div>
-    </section> -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-main">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright & Designed by:
+            <a href="https://atharvacm.netlify.com" target="_blank" class="footer-copyright-link"> AtharvaCM |
+                FreakyDOMINIC</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -155,7 +188,7 @@
             var crawl = document.getElementsByClassName('crawl')[0];
             setTimeout(() => {
                 crawl.style.display = 'block'
-                crawl.style.animation = 'crawl 60s linear'; // start the animation
+                crawl.style.animation = 'crawl 1s linear'; // start the animation
             }, 3000)
             // Code for Chrome, Safari and Opera
             crawl.addEventListener("webkitAnimationEnd", endCrawlFunction);
@@ -217,7 +250,7 @@
             // $('body').addClass('loaded');
             setTimeout(() => {
                 $('body').addClass('loaded');
-            }, 5000)
+            }, 1000)
 
             // getting all the elements
             var btn = document.getElementsByClassName('toggle-btn')[0];
@@ -245,7 +278,7 @@
                 }
                 // get the tiles and side imgs after toggling btn
                 let tiles = document.getElementsByClassName('tile');
-                let side_imgs = document.getElementsByClassName('side-img');
+                // let side_imgs = document.getElementsByClassName('side-img');
                 console.log("b4 = ", tiles)
                 // toggling every element
                 document.documentElement.classList.toggle('dark-mode');
@@ -258,7 +291,7 @@
                     // using side imgs in this for loop coz the lentgh is same
                     tiles[index].classList.toggle('not-focused');
                     tiles[index].classList.toggle('tile-focused');
-                    side_imgs[index].classList.toggle('d-none');
+                    // side_imgs[index].classList.toggle('d-none');
                 }
             })
 
