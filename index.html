@@ -99,7 +99,7 @@
             </div>
 
             <div class="toggle-btn-div d-flex align-items-center">
-                <button class="toggle-btn">Toggle Force Side</button>
+                <button class="toggle-btn btn btn-md btn-outline-dark">Toggle Force Side</button>
 
             </div>
 
@@ -155,7 +155,7 @@
             var crawl = document.getElementsByClassName('crawl')[0];
             setTimeout(() => {
                 crawl.style.display = 'block'
-                crawl.style.animation = 'crawl 60s linear'; // start the animation
+                crawl.style.animation = 'crawl 2s linear'; // start the animation
             }, 3000)
             // Code for Chrome, Safari and Opera
             crawl.addEventListener("webkitAnimationEnd", endCrawlFunction);
@@ -182,7 +182,6 @@
                     var music_flag = 0;
                 })
             }
-
             // Setup the new Howl.
             const light_sound = new Howl({
                 src: ['audio/jedi.mp3'],
@@ -198,6 +197,21 @@
                 // preload: true,
                 // autoplay: true,
             });
+
+            var stop_music_btn = document.getElementById('toggle-music');
+            var music_flag = 0;
+            console.log(stop_music_btn);
+            stop_music_btn.addEventListener('click', () => {
+                console.log('toggling-music');
+                if (music_flag == 0) {
+                    // stop music
+                    Howler.mute(true);
+                    music_flag = 1;
+                } else {
+                    Howler.mute(false);
+                    music_flag = 0;
+                }
+            })
 
             // add loaded class to body once music is loaded
             // $('body').addClass('loaded');
@@ -245,19 +259,6 @@
                     tiles[index].classList.toggle('not-focused');
                     tiles[index].classList.toggle('tile-focused');
                     side_imgs[index].classList.toggle('d-none');
-                }
-            })
-
-            var stop_music_btn = document.getElementById('toggle-music');
-            stop_music_btn.addEventListener('click', () => {
-                console.log('toggling-music');
-                if (music_flag == 0) {
-                    // stop music
-                    Howler.mute(true);
-                    music_flag = 1;
-                } else {
-                    Howler.mute(false);
-                    music_flag = 0;
                 }
             })
 
