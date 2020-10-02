@@ -200,7 +200,10 @@
             });
 
             // add loaded class to body once music is loaded
-            $('body').addClass('loaded');
+            // $('body').addClass('loaded');
+            setTimeout(() => {
+                $('body').addClass('loaded');
+            }, 5000)
 
             // getting all the elements
             var btn = document.getElementsByClassName('toggle-btn')[0];
